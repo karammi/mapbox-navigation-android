@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.services.android.navigation.v5.location.LocationValidator;
 import com.mapbox.services.android.navigation.v5.milestone.Milestone;
 import com.mapbox.services.android.navigation.v5.navigation.notification.NavigationNotification;
 import com.mapbox.services.android.navigation.v5.route.RouteEngine;
@@ -100,7 +101,8 @@ public class NavigationService extends Service implements LocationEngineListener
   @Override
   public void onLocationChanged(Location location) {
     Timber.d("onLocationChanged");
-    if (location != null && validLocationUpdate(location)) {
+    LocationValidator.getInstance().setLocationLoggingEnabled(true);
+    if (location != null && LocationValidator.getInstance().isValidUpdate(location)) {
       thread.queueTask(MSG_LOCATION_UPDATED, NewLocationModel.create(location, mapboxNavigation,
         recentDistancesFromManeuverInMeters));
     }
