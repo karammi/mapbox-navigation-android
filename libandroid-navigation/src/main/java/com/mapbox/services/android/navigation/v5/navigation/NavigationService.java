@@ -101,7 +101,6 @@ public class NavigationService extends Service implements LocationEngineListener
   @Override
   public void onLocationChanged(Location location) {
     Timber.d("onLocationChanged");
-    LocationValidator.getInstance().setLocationLoggingEnabled(true);
     if (location != null && LocationValidator.getInstance().isValidUpdate(location)) {
       thread.queueTask(MSG_LOCATION_UPDATED, NewLocationModel.create(location, mapboxNavigation,
         recentDistancesFromManeuverInMeters));
